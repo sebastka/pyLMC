@@ -2,7 +2,8 @@
 from LMC import LMC
 
 def main():
-	lmc = LMC('fib.lmc', False) # True to save machinecode to code.txt
+	# True to save machinecode to code.txt
+	lmc = LMC('fib.lmc', False)
 	
 	return lmc.run()
 
