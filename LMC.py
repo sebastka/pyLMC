@@ -9,6 +9,7 @@ class LMC:
 			'ADD': 100, 
 			'SUB': 200, 
 			'STA': 300, 
+			'STO': 300,
 			'LDA': 500, 
 			'BRA': 600, 
 			'BRZ': 700, 
@@ -83,7 +84,7 @@ class LMC:
 			label_to = line[2].upper()
 
 		if instruction not in self.instructionSet:
-			print('Unknown instruction \'' + instruction + '\'!')
+			print('Unknown instruction \'' + str(instruction) + '\'!')
 			exit(0)
 		
 		return [label_from, instruction, label_to]
@@ -92,7 +93,10 @@ class LMC:
 		i = 0
 		for line in self._program:
 			if line[1] == 'DAT':
-				self._mailbox[i] = int(line[2])
+				if line[2]:
+					self._mailbox[i] = int(line[2])
+				else:
+					self._mailbox[i] = 0
 			else:
 				self._mailbox[i] = int(self.instructionSet[line[1]])
 
@@ -160,3 +164,9 @@ class LMC:
 				pass
 
 			counter += 1
+
+def printList(m_list):
+	i = 0
+	for el in m_list:
+		print('#' + str(i) + ':\t' + str(el))
+		i += 1
