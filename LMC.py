@@ -26,7 +26,7 @@ class LMC:
 			'DAT': None
 		}
 
-		self.ParseFile(filename)
+		self.parseFile(filename)
 		self.toMailbox(save)
 
 	def openFile(self, filename, mode = 'r'):
@@ -47,7 +47,7 @@ class LMC:
 			print('Error: could not open file: ' + filename)
 			exit(1)
 
-	def ParseFile(self, filename):
+	def parseFile(self, filename):
 		""" Parse opened file line by line and add each relevant line to _program
 
 			Args:
