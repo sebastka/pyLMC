@@ -171,20 +171,24 @@ class LMC:
 
 		f.close()
 
-	def run(self):
+	def run(self, verbose = False):
 		""" Run mailbox
+
+			Args:
+				verbose (bool): run verbosely (for debugging)
 		"""
 		acumulator = 0
 		counter = 0
 
 		while True:
 			machinecode = self._mailbox[counter]
-
-			#print('\n----------------------------')
-			#print('Counter: ' + str(counter))
-			#print('Acumulator: ' + str(acumulator))
-			#print('Machinecode: ' + str(machinecode))
-			#print('----------------------------')
+			
+			if verbose:
+				print('\n----------------------------')
+				print('Counter: ' + str(counter))
+				print('Acumulator: ' + str(acumulator))
+				print('Machinecode: ' + str(machinecode))
+				print('----------------------------')
 
 			if machinecode == 0: # HLT
 				return 0

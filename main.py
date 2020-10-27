@@ -5,6 +5,7 @@ def main():
 	# True to save machinecode to code.txt
 	lmc = LMC('fib.lmc', False)
 	
+	# lmc.run(True) to run verbosely
 	return lmc.run()
 
 ######################
