@@ -223,6 +223,10 @@ class LMC:
 			else: # DAT
 				pass
 
+			if counter > 100:
+				print('Unexpected behaviour. Does your program halt?')
+				exit(1)
+
 			counter += 1
 		
 		print('Unexpected behaviour. Does your program halt?')
