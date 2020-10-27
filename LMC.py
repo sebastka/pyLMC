@@ -1,11 +1,3 @@
-import re
-
-#def printList(m_list):
-#	i = 0
-#	for el in m_list:
-#		print('#' + str(i) + ':\t' + str(el))
-#		i += 1
-
 class LMC:
 	def __init__(self, filename, save = False):
 		self._mailbox = [0 for x in range(100)]
