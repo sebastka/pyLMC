@@ -1,5 +1,5 @@
 class LMC:
-	def __init__(self, filename, save = False):
+	def __init__(self, filename: str, save = False):
 		""" Initialize LMC machine
 
 			Args:
@@ -11,7 +11,7 @@ class LMC:
 		self._program = []
 		self._labels = {}
 
-		self.instructionSet = {
+		self._instructionSet = {
 			'HLT': 000, 
 			'ADD': 100, 
 			'SUB': 200, 
@@ -29,7 +29,7 @@ class LMC:
 		self.parseFile(filename)
 		self.toMailbox(save)
 
-	def openFile(self, filename, mode = 'r'):
+	def openFile(self, filename: str, mode: str = 'r'):
 		""" Open and test if a file can be opened
 
 			Args:
@@ -47,7 +47,7 @@ class LMC:
 			print('Error: could not open file: ' + filename)
 			exit(1)
 
-	def parseFile(self, filename):
+	def parseFile(self, filename: str):
 		""" Parse opened file line by line and add each relevant line to _program
 
 			Args:
@@ -69,7 +69,7 @@ class LMC:
 		
 		f.close()
 	
-	def trimLine(self, line):
+	def trimLine(self, line: str):
 		""" Remove comments, tabs and spaces and nl from line
 
 			Args:
@@ -93,7 +93,7 @@ class LMC:
 		else:
 			return None
 	
-	def parseLine(self, line):
+	def parseLine(self, line: str):
 		""" Parse line
 
 			Args:
@@ -114,10 +114,10 @@ class LMC:
 		if cols == 1: # If the line has one column, it's only an instruction
 			instruction = line[0].upper()
 		elif cols == 2: # If two, it's either a label with instruction, or instruction with address
-			if line[0].upper() in self.instructionSet:
+			if line[0].upper() in self._instructionSet:
 				instruction = line[0].upper()
 				address = line[1].upper()
-			elif line[1].upper() in self.instructionSet:
+			elif line[1].upper() in self._instructionSet:
 				label = line[0].upper()
 				instruction = line[1].upper()
 		elif cols == 3: # If three, all of them
@@ -126,13 +126,13 @@ class LMC:
 			address = line[2].upper()
 
 		# If instruction is invalid, bail out
-		if instruction not in self.instructionSet:
+		if instruction not in self._instructionSet:
 			print('Unknown instruction \'' + str(instruction) + '\'!')
 			exit(0)
 		
 		return [label, instruction, address]
 
-	def toMailbox(self, save):
+	def toMailbox(self, save: bool = False):
 		""" Save _program to mailbox with machine code
 
 			Args:
@@ -147,7 +147,7 @@ class LMC:
 				else:
 					self._mailbox[i] = 0
 			else:
-				self._mailbox[i] = int(self.instructionSet[line[1]]) # mailbox = Instruction code
+				self._mailbox[i] = int(self._instructionSet[line[1]]) # mailbox = Instruction code
 
 				if line[2] in self._labels: # mailbox += address as label (if indicated)
 					self._mailbox[i] += int(self._labels[line[2]])
@@ -171,7 +171,7 @@ class LMC:
 
 		f.close()
 
-	def run(self, verbose = False):
+	def run(self, verbose: bool = False):
 		""" Run mailbox
 
 			Args:
@@ -188,6 +188,7 @@ class LMC:
 				print('Counter: ' + str(counter))
 				print('Acumulator: ' + str(acumulator))
 				print('Machinecode: ' + str(machinecode))
+				print('Instruction: ' + self.getInstructionByCode(machinecode))
 				print('----------------------------')
 
 			if machinecode == 0: # HLT
@@ -226,3 +227,25 @@ class LMC:
 		
 		print('Unexpected behaviour. Does your program halt?')
 		exit(1)
+	
+	def getInstructionByCode(self, code: int):
+		""" Find the name of an instruction from its code
+
+			Args:
+				code: int
+
+			Returns:
+				str: instruction name
+		"""
+		if code == 901:
+			return 'INP'
+		elif code == 902:
+			return 'OUT'
+		elif code == 922:
+			return 'OTC'
+
+		for key in self._instructionSet:
+			if self._instructionSet[key] == int(str(code)[:1])*100:
+				return key
+		
+		return ''
