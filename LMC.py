@@ -1,13 +1,3 @@
-""" Finds all the neighbors of Cell (x, y).
-
-	Args:
-		x (int): Row.
-		y (int): Column.
-	
-	Returns:
-		list of Cells: A list containing all the neighbors Cells of Cell (x, y).
-"""
-
 class LMC:
 	def __init__(self, filename, save = False):
 		""" Initialize LMC machine
