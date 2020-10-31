@@ -10,7 +10,7 @@
 		OUT
 		LDA		y
 		OUT
-loop	LDA		lmt
+lp		LDA		lmt		// Loop
 		BRZ		end
 		SUB		one
 		STA		lmt
@@ -22,7 +22,7 @@ loop	LDA		lmt
 		STA		x
 		LDA		z
 		STA		y
-		BRA		loop
+		BRA		lp
 end		LDA		z
 		SUB		z
 		HLT
