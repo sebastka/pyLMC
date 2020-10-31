@@ -2,9 +2,12 @@
 from LMC import LMC
 
 def main():
-	# True to save machinecode to code.txt
-	lmc = LMC('fib.lmc', False)
-	
+	lmc = LMC('fib.lmc')
+	#lmc.saveMailbox()
+
+	# Load mailbox
+	#lmc = LMC('code.txt', True)
+
 	# lmc.run(True) to run verbosely
 	return lmc.run()
 
