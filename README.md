@@ -1,25 +1,23 @@
-# pyLMC - Simple Little Man Computer interpretor in Python
+# pyLMC - Simple Little Man Computer interpretor
 
 Usage: See `main.py`
 
 ## Load asm file:
 ```python
-lmc = LMC(filename: str)
+lmc = LMC('fib.asm')
+lmc.run()
 ```
 
 ## Load asm file and save mailbox:
 ```python
-lmc = LMC(filename: str)
-lmc.saveMailbox()
+lmc = LMC('fib.asm')
+lmc.saveMailbox('fib.lmc')
+lmc.run()
 ```
 
 ## Load mailbox:
 ```python
-lmc = LMC('code.txt', True)
-```
-
-## Run:
-```python
+lmc = LMC('fib.lmc', True)
 lmc.run()
 ```
 

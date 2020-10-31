@@ -157,12 +157,12 @@ class LMC:
 			
 			i += 1
 
-	def saveMailbox(self) -> None:
+	def saveMailbox(self, filename: str) -> None:
 		""" 
 			Save mailbox to code.txt
 		"""
 
-		f = self.openFile('code.txt', 'w')
+		f = self.openFile(filename, 'w')
 
 		for i in self._mailbox:
 			f.write(str(i) + '\n')

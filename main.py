@@ -2,11 +2,11 @@
 from LMC import LMC
 
 def main():
-	lmc = LMC('fib.lmc')
-	#lmc.saveMailbox()
+	lmc = LMC('fib.asm')
+	#lmc.saveMailbox('fib.lmc')
 
 	# Load mailbox
-	#lmc = LMC('code.txt', True)
+	#lmc = LMC('fib.lmc', True)
 
 	# lmc.run(True) to run verbosely
 	return lmc.run()
