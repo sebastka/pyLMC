@@ -4,20 +4,20 @@ Usage: See `main.py`
 
 ## Load asm file:
 ```python
-lmc = LMC('fib.asm')
+lmc = LMC('fib.lmc')
 lmc.run()
 ```
 
 ## Load asm file and save mailbox:
 ```python
-lmc = LMC('fib.asm')
-lmc.saveMailbox('fib.lmc')
+lmc = LMC('fib.lmc')
+lmc.saveMailbox('fib.mailbox')
 lmc.run()
 ```
 
 ## Load mailbox:
 ```python
-lmc = LMC('fib.lmc', True)
+lmc = LMC('fib.mailbox', True)
 lmc.run()
 ```
 
