@@ -163,9 +163,18 @@ class LMC:
 		"""
 
 		f = self.openFile(filename, 'w')
+		f.write('// Code\t\tInstruction\t\tAddress\n')
 
 		for i in self._mailbox:
-			f.write(str(i) + '\n')
+			comment = ''
+			if i != 0:
+				instruction = self.getInstructionFromCode(i)
+				comment += '\t\t//\t' + instruction
+
+				if instruction not in ['DAT', 'OUT', 'OTC', 'INP']:
+					comment += '\t\t\t\t' + str(i)[1:]
+
+			f.write(str(i) + comment + '\n')
 
 		f.close()
 
@@ -174,8 +183,10 @@ class LMC:
 
 		i = 0
 		for code in f.readlines():
-			self._mailbox[i] = int(code)
-			i += 1
+			code = self.trimLine(code)
+			if code: # If parsable line (code not None)
+				self._mailbox[i] = int(code[0])
+				i += 1
 		
 		f.close()
 
@@ -251,6 +262,8 @@ class LMC:
 			Returns:
 				str: instruction name
 		"""
+		if code >= 1 and code < 100:
+			return 'DAT'
 		if code == 901:
 			return 'INP'
 		elif code == 902:
