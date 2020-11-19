@@ -192,12 +192,14 @@ class LMC:
 			machinecode = self._mailbox[counter]
 			
 			if verbose:
-				print('\n----------------------------')
-				print('Counter: ' + str(counter))
-				print('Acumulator: ' + str(acumulator))
-				print('Machinecode: ' + str(machinecode))
-				print('Instruction: ' + self.getInstructionFromCode(machinecode))
-				print('----------------------------')
+				print('\n----------------------------',
+					'Counter: ' + str(counter),
+					'Acumulator: ' + str(acumulator),
+					'Machinecode: ' + str(machinecode),
+					'Instruction: ' + self.getInstructionFromCode(machinecode),
+					'----------------------------',
+					sep='\n'
+				)
 
 			if machinecode == 0: # HLT
 				return 0
