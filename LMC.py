@@ -196,7 +196,7 @@ class LMC:
 				print('Counter: ' + str(counter))
 				print('Acumulator: ' + str(acumulator))
 				print('Machinecode: ' + str(machinecode))
-				print('Instruction: ' + self.getInstructionByCode(machinecode))
+				print('Instruction: ' + self.getInstructionFromCode(machinecode))
 				print('----------------------------')
 
 			if machinecode == 0: # HLT
@@ -240,7 +240,7 @@ class LMC:
 		print('Unexpected behaviour. Does your program halt?')
 		exit(1)
 	
-	def getInstructionByCode(self, code: int) -> str:
+	def getInstructionFromCode(self, code: int) -> str:
 		""" Find the name of an instruction from its code
 
 			Args:
@@ -255,9 +255,9 @@ class LMC:
 			return 'OUT'
 		elif code == 922:
 			return 'OTC'
-
-		for key in self._instructionSet:
-			if self._instructionSet[key] == int(str(code)[:1])*100:
-				return key
-		
-		return ''
+		else:
+			for key in self._instructionSet:
+				if self._instructionSet[key] == int(str(code)[:1])*100:
+					return key
+			
+			return ''
