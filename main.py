@@ -15,6 +15,13 @@ parser.add_argument(
 )
 
 parser.add_argument(
+	'--slow', 
+	help = 'run in slow mode',
+	dest = 'slow',
+	action='store_true'
+)
+
+parser.add_argument(
 	'-r',
 	help = 'load and run lmc file',
 	dest = 'lmc_in',
@@ -44,10 +51,10 @@ def main(args):
 		if args.mb_out:
 			lmc.saveMailbox(args.mb_out)
 		
-		return lmc.run(args.verbose)
+		return lmc.run(args.verbose, args.slow)
 	elif args.mb_in: # Load mailbox
 		lmc = LMC(args.mb_in, True)
-		return lmc.run(args.verbose)
+		return lmc.run(args.verbose, args.slow)
 	else:
 		print('Usage: pyLMC -h')
 		return 1

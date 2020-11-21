@@ -193,7 +193,18 @@ class LMC:
 		
 		f.close()
 
-	def run(self, verbose: bool = False) -> None:
+	def _getInt(self) -> int:
+		out = ''
+		while not isinstance(out, int):
+			try:
+				out = int(input('Input: '))
+			except (ValueError, TypeError):
+				out = ''
+		
+		return out
+
+
+	def run(self, verbose: bool = False, slow: bool = False) -> None:
 		""" Run mailbox
 
 			Args:
@@ -202,23 +213,28 @@ class LMC:
 		acumulator = 0
 		counter = 0
 
-		while True:
+		while not slow or (counter == 0 or input('Press \'Enter\' to continue or \'q\' to quit.') != 'q'):
 			machinecode = self._mailbox[counter]
 			
 			if verbose:
-				print('\n|------------------------',
+				print('\n|-----------------------|',
 					'| Counter\t| ' + str(counter) + '\t|',
-					'|------------------------',
+					'|-----------------------|',
 					'| Acumulator\t| ' + str(acumulator) + '\t|',
-					'|------------------------',
+					'|-----------------------|',
 					'| Machinecode\t| ' + str(machinecode) + '\t|',
-					'|------------------------',
+					'|-----------------------|',
 					'| Instruction\t| ' + self._getInstructionFromCode(machinecode) + '\t|',
-					'|------------------------',
-					'| Address\t| ' + str(machinecode)[1:] + '\t|',
-					'|------------------------',
 					sep='\n'
 				)
+
+				if self._getInstructionFromCode(machinecode) not in ['DAT', 'OUT', 'OTC', 'INP']:
+					print('|-----------------------|',
+						'| Address\t| ' + str(machinecode)[1:] + '\t|',
+						sep='\n'
+					)
+				
+				print('|-----------------------|',)
 
 			if machinecode == 0: # HLT
 				return 0
@@ -244,7 +260,7 @@ class LMC:
 					counter = machinecode - 800
 					continue
 			elif machinecode == 901: # INP
-				acumulator = int(input('Input: '))
+				acumulator = self._getInt()
 			elif machinecode == 902: # OUT
 				print(acumulator)
 			elif machinecode == 922: # OTC
@@ -258,8 +274,7 @@ class LMC:
 
 			counter += 1
 		
-		print('Unexpected behaviour. Does your program halt?')
-		exit(1)
+		return 0
 	
 	def _getInstructionFromCode(self, code: int) -> str:
 		""" Find the name of an instruction from its code
