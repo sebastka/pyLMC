@@ -1,3 +1,73 @@
+#!/usr/bin/env python3
+import argparse
+
+####################
+###### Main function
+####################
+
+def main(args):
+	if args.lmc_in: # Loads asm file
+		lmc = LMC(args.lmc_in)
+		
+		if args.mb_out:
+			lmc.saveMailbox(args.mb_out)
+		
+		return lmc.run(args.verbose, args.slow)
+	elif args.mb_in: # Load mailbox
+		lmc = LMC(args.mb_in, True)
+		return lmc.run(args.verbose, args.slow)
+	else:
+		print('Usage: pyLMC -h')
+		return 1
+
+#######################
+## Arguments definition
+#######################
+
+parser = argparse.ArgumentParser(
+	"pyLMC",
+	description='Little Man Computer interpretor in Python.'
+)
+
+parser.add_argument(
+	'--verbose', '-v',
+	help = 'run verbosely',
+	dest = 'verbose',
+	action='store_true'
+)
+
+parser.add_argument(
+	'--slow', 
+	help = 'run in slow mode',
+	dest = 'slow',
+	action='store_true'
+)
+
+parser.add_argument(
+	'-r',
+	help = 'load and run lmc file',
+	dest = 'lmc_in',
+	action='store'
+)
+
+parser.add_argument(
+	'-s',
+	help = 'store mailbox to file',
+	dest = 'mb_out',
+	action='store'
+)
+
+parser.add_argument(
+	'-l',
+	help = 'load and run mailbox file',
+	dest = 'mb_in',
+	action='store'
+)
+
+####################
+### Class definition
+####################
+
 class LMC:
 	def __init__(self, filename: str, isMailbox: bool = False) -> None:
 		""" Initialize LMC machine
@@ -299,3 +369,9 @@ class LMC:
 					return key
 			
 			return ''
+
+####################
+############### Exit
+####################
+
+exit(main(parser.parse_args()))
