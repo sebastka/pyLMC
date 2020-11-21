@@ -159,7 +159,10 @@ class LMC:
 
 	def saveMailbox(self, filename: str) -> None:
 		""" 
-			Save mailbox to code.txt
+			Save mailbox to filename
+
+			Args:
+				filename: str
 		"""
 
 		f = self._openFile(filename, 'w')
