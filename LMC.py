@@ -203,12 +203,17 @@ class LMC:
 			machinecode = self._mailbox[counter]
 			
 			if verbose:
-				print('\n----------------------------',
-					'Counter: ' + str(counter),
-					'Acumulator: ' + str(acumulator),
-					'Machinecode: ' + str(machinecode),
-					'Instruction: ' + self._getInstructionFromCode(machinecode),
-					'----------------------------',
+				print('\n|------------------------',
+					'| Counter\t| ' + str(counter) + '\t|',
+					'|------------------------',
+					'| Acumulator\t| ' + str(acumulator) + '\t|',
+					'|------------------------',
+					'| Machinecode\t| ' + str(machinecode) + '\t|',
+					'|------------------------',
+					'| Instruction\t| ' + self._getInstructionFromCode(machinecode) + '\t|',
+					'|------------------------',
+					'| Address\t| ' + str(machinecode)[1:] + '\t|',
+					'|------------------------',
 					sep='\n'
 				)
 
