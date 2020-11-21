@@ -27,12 +27,12 @@ class LMC:
 		}
 
 		if isMailbox:
-			self.loadMailbox(filename)
+			self._loadMailbox(filename)
 		else:
-			self.loadAsm(filename)
-			self.toMailbox()
+			self._loadAsm(filename)
+			self._toMailbox()
 
-	def openFile(self, filename: str, mode: str = 'r'):
+	def _openFile(self, filename: str, mode: str = 'r'):
 		""" Open and test if a file can be opened
 
 			Args:
@@ -50,18 +50,18 @@ class LMC:
 			print('Error: could not open file \'' + filename + '\'.')
 			exit(1)
 
-	def loadAsm(self, filename: str) -> None:
+	def _loadAsm(self, filename: str) -> None:
 		""" Parse opened file line by line and add each relevant line to _program
 
 			Args:
 				filename (str): file to parse
 		"""
 
-		f = self.openFile(filename)
+		f = self._openFile(filename)
 
 		i = 0
 		for line in f.readlines():
-			line = self.parseLine(self.trimLine(line)) # Parse line
+			line = self._parseLine(self._trimLine(line)) # Parse line
 
 			if line != None:
 				if line[0] != None:
@@ -72,7 +72,7 @@ class LMC:
 		
 		f.close()
 	
-	def trimLine(self, line: str) -> str:
+	def _trimLine(self, line: str) -> str:
 		""" Remove comments, tabs and spaces and nl from line
 
 			Args:
@@ -96,7 +96,7 @@ class LMC:
 		else:
 			return None
 	
-	def parseLine(self, line: str) -> list:
+	def _parseLine(self, line: str) -> list:
 		""" Parse line
 
 			Args:
@@ -135,7 +135,7 @@ class LMC:
 		
 		return [label, instruction, address]
 
-	def toMailbox(self) -> None:
+	def _toMailbox(self) -> None:
 		""" 
 			Convert _program to mailbox
 		"""
@@ -162,13 +162,13 @@ class LMC:
 			Save mailbox to code.txt
 		"""
 
-		f = self.openFile(filename, 'w')
+		f = self._openFile(filename, 'w')
 		f.write('// Code\t\tInstruction\t\tAddress\n')
 
 		for i in self._mailbox:
 			comment = ''
 			if i != 0:
-				instruction = self.getInstructionFromCode(i)
+				instruction = self._getInstructionFromCode(i)
 				comment += '\t\t//\t' + instruction
 
 				if instruction not in ['DAT', 'OUT', 'OTC', 'INP']:
@@ -178,12 +178,12 @@ class LMC:
 
 		f.close()
 
-	def loadMailbox(self, filename: str) -> None:
-		f = self.openFile(filename)
+	def _loadMailbox(self, filename: str) -> None:
+		f = self._openFile(filename)
 
 		i = 0
 		for code in f.readlines():
-			code = self.trimLine(code)
+			code = self._trimLine(code)
 			if code: # If parsable line (code not None)
 				self._mailbox[i] = int(code[0])
 				i += 1
@@ -207,7 +207,7 @@ class LMC:
 					'Counter: ' + str(counter),
 					'Acumulator: ' + str(acumulator),
 					'Machinecode: ' + str(machinecode),
-					'Instruction: ' + self.getInstructionFromCode(machinecode),
+					'Instruction: ' + self._getInstructionFromCode(machinecode),
 					'----------------------------',
 					sep='\n'
 				)
@@ -253,7 +253,7 @@ class LMC:
 		print('Unexpected behaviour. Does your program halt?')
 		exit(1)
 	
-	def getInstructionFromCode(self, code: int) -> str:
+	def _getInstructionFromCode(self, code: int) -> str:
 		""" Find the name of an instruction from its code
 
 			Args:
