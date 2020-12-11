@@ -86,6 +86,7 @@ class LMC:
 			'ADD': 100, 
 			'SUB': 200, 
 			'STA': 300, 'STO': 300,
+			'AX2': 400,
 			'LDA': 500, 
 			'BRA': 600, 
 			'BRZ': 700, 
@@ -214,7 +215,13 @@ class LMC:
 		for line in self._program: # Loop through program (parsed file)
 			if line[1] == 'DAT':
 				if line[2]: # DAT is not always initialized to 0
-					self._mailbox[i] = int(line[2])
+					if line[2].isnumeric():
+						self._mailbox[i] = int(line[2])
+					elif line[2] in self._labels:
+						self._mailbox[i] = self._labels[line[2]]
+					else:
+						print('Error: could not load memory address ' + line[2] + '.')
+						exit(1)
 				else:
 					self._mailbox[i] = 0
 			else:
@@ -315,7 +322,7 @@ class LMC:
 			elif machinecode in range(300, 399): # STA
 				self._mailbox[machinecode-300] = acumulator
 			elif machinecode in range(400, 499): # Undefined
-				pass
+				acumulator *= 2
 			elif machinecode in range(500, 599): # LDA
 				acumulator = self._mailbox[machinecode-500]
 			elif machinecode in range(600, 699): # BRA
