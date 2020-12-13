@@ -86,7 +86,7 @@ class LMC:
 			'ADD': 100, 
 			'SUB': 200, 
 			'STA': 300, 'STO': 300,
-			'AX2': 400,
+			#'': 400,	# Undefined
 			'LDA': 500, 
 			'BRA': 600, 
 			'BRZ': 700, 
@@ -323,7 +323,7 @@ class LMC:
 			elif machinecode in range(300, 399): # STA
 				self._mailbox[machinecode-300] = acumulator
 			elif machinecode in range(400, 499): # Undefined
-				acumulator *= 2
+				pass
 			elif machinecode in range(500, 599): # LDA
 				acumulator = self._mailbox[machinecode-500]
 			elif machinecode in range(600, 699): # BRA
