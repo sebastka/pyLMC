@@ -296,19 +296,19 @@ class LMC:
 			
 			if verbose:
 				print('\n|-----------------------|',
-					'| Counter\t| ' + str(counter) + '\t|',
+					f'| Counter\t| {counter}\t|',
 					'|-----------------------|',
-					'| Acumulator\t| ' + str(acumulator) + '\t|',
+					f'| Acumulator\t| {acumulator}\t|',
 					'|-----------------------|',
-					'| Machinecode\t| ' + str(machinecode) + '\t|',
+					f'| Machinecode\t| {machinecode}\t|',
 					'|-----------------------|',
-					'| Instruction\t| ' + self._getInstructionFromCode(machinecode) + '\t|',
+					f'| Instruction\t| {self._getInstructionFromCode(machinecode)}\t|',
 					sep='\n'
 				)
 
 				if self._getInstructionFromCode(machinecode) not in ['DAT', 'OUT', 'OTC', 'INP']:
 					print('|-----------------------|',
-						'| Address\t| ' + str(machinecode)[1:] + '\t|',
+						f'| Address\t| {str(machinecode)[1:]}\t|',
 						sep='\n'
 					)
 				
