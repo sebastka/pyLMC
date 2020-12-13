@@ -102,6 +102,10 @@ class LMC:
 		else:
 			self._loadAsm(filename)
 			self._toMailbox()
+	
+	def _error(self, msg: str) -> None:
+		print(msg)
+		exit(1)
 
 	def _openFile(self, filename: str, mode: str = 'r'):
 		""" Open and test if a file can be opened
@@ -118,8 +122,7 @@ class LMC:
 		try:
 			return open(filename, mode)
 		except IOError:
-			print('Error: could not open file \'' + filename + '\'.')
-			exit(1)
+			self._error('Error: could not open file \'' + filename + '\'.')
 
 	def _loadAsm(self, filename: str) -> None:
 		""" Parse opened file line by line and add each relevant line to _program
@@ -201,8 +204,7 @@ class LMC:
 
 		# If instruction is invalid, bail out
 		if instruction not in self._instructionSet:
-			print('Unknown instruction \'' + str(instruction) + '\'!')
-			exit(0)
+			self._error('Unknown instruction \'' + str(instruction) + '\'!')
 		
 		return [label, instruction, address]
 
@@ -220,8 +222,7 @@ class LMC:
 					elif line[2] in self._labels:
 						self._mailbox[i] = self._labels[line[2]]
 					else:
-						print('Error: could not load memory address ' + line[2] + '.')
-						exit(1)
+						self._error('Error: could not load memory address ' + line[2] + '.')
 				else:
 					self._mailbox[i] = 0
 			else:
@@ -346,8 +347,7 @@ class LMC:
 				pass
 
 			if counter > 100:
-				print('Unexpected behaviour. Does your program halt?')
-				exit(1)
+				self._error('Unexpected behaviour. Does your program halt?')
 
 			counter += 1
 		
