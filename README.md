@@ -1,4 +1,4 @@
-# pyLMC - Simple Little Man Computer interpretor
+# pyLMC - Little Man Computer interpreter in Python
 
 ```sh
 usage: pyLMC [-h] [--verbose] [--slow] [-r LMC_IN] [-s MB_OUT] [-l MB_IN]
