@@ -80,6 +80,7 @@ class LMC:
 		self._mailbox = [0 for x in range(100)]
 		self._program = []
 		self._labels = {}
+		self._output = ''
 
 		self._instructionSet = {
 			'HLT': 000, 
@@ -315,6 +316,7 @@ class LMC:
 				print('|-----------------------|',)
 
 			if machinecode == 0: # HLT
+				print(f'\nOutput:\n{self._output}')
 				return 0
 			elif machinecode in range(100, 199): # ADD
 				acumulator += self._mailbox[machinecode-100]
@@ -340,9 +342,19 @@ class LMC:
 			elif machinecode == 901: # INP
 				acumulator = self._getInt()
 			elif machinecode == 902: # OUT
-				print(acumulator)
+				self._output += str(acumulator)
+
+				if verbose:
+					print(f'Output:\n{self._output}')
+				elif slow:
+					print(acumulator)
 			elif machinecode == 922: # OTC
-				print(chr(acumulator), end='')
+				self._output += str(chr(acumulator))
+
+				if verbose:
+					print(f'Output:\n{self._output}')
+				elif slow:
+					print(chr(acumulator), end='')
 			else: # DAT
 				pass
 
@@ -351,7 +363,7 @@ class LMC:
 
 			counter += 1
 		
-		return 0
+		return 1
 	
 	def _getInstructionFromCode(self, code: int) -> str:
 		""" Find the name of an instruction from its code
