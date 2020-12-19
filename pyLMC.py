@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import numpy as np
 
 ####################
 ###### Main function
@@ -138,8 +139,8 @@ class LMC:
 		for line in f.readlines():
 			line = self._parseLine(self._trimLine(line)) # Parse line
 
-			if line != None:
-				if line[0] != None:
+			if line:
+				if line[0]:
 					self._labels.update({line[0]: i}) # If line has a label, add to label list
 				
 				self._program.append(line) # Save line to _program
@@ -158,12 +159,16 @@ class LMC:
 		"""
 
 		# Remove comments:
-		line = line.split('//')
-		line = line[0].split('#')
-
-		#Remove whit spaces and tanbs
-		line = line[0].strip('\t\n\r').replace('\t', ' ').split(' ')
-		line = list(filter(None, line))
+		line = [
+			x
+			for x in line
+				.split('//')[0] 	# Comments
+				.split('#')[0]		# Comments
+				.strip('\t\n\r')	# Endl
+				.replace('\t', ' ')	# Tab
+				.split(' ')
+			if x
+		]
 		
 		# If we have something, return line
 		if line:
@@ -181,7 +186,7 @@ class LMC:
 				list: [label, instruction, address]
 		"""
 
-		if line == None:
+		if not line:
 			return None
 		
 		cols = len(line)
@@ -205,7 +210,7 @@ class LMC:
 
 		# If instruction is invalid, bail out
 		if instruction not in self._instructionSet:
-			self._error('Unknown instruction \'' + str(instruction) + '\'!')
+			self._error(f'Unknown instruction {instruction}!')
 		
 		return [label, instruction, address]
 
@@ -214,8 +219,7 @@ class LMC:
 			Convert _program to mailbox
 		"""
 
-		i = 0
-		for line in self._program: # Loop through program (parsed file)
+		for i, line in enumerate(self._program): # Loop through program (parsed file)
 			if line[1] == 'DAT':
 				if line[2]: # DAT is not always initialized to 0
 					if line[2].isnumeric():
@@ -223,7 +227,7 @@ class LMC:
 					elif line[2] in self._labels:
 						self._mailbox[i] = self._labels[line[2]]
 					else:
-						self._error('Error: could not load memory address ' + line[2] + '.')
+						self._error(f'Error: could not load memory address {line[2]}.')
 				else:
 					self._mailbox[i] = 0
 			else:
@@ -233,8 +237,6 @@ class LMC:
 					self._mailbox[i] += int(self._labels[line[2]])
 				elif line[1] == 'LDA' and line[2].isnumeric(): # Load an address explicitly
 					self._mailbox[i] += int(line[2])
-			
-			i += 1
 
 	def saveMailbox(self, filename: str) -> None:
 		""" 
@@ -251,12 +253,12 @@ class LMC:
 			comment = ''
 			if i != 0:
 				instruction = self._getInstructionFromCode(i)
-				comment += '\t\t//\t' + instruction
+				comment += f'\t\t//\t {instruction}'
 
 				if instruction not in ['DAT', 'OUT', 'OTC', 'INP']:
-					comment += '\t\t\t\t' + str(i)[1:]
+					comment += f'\t\t\t\t{str(i)[1:]}'
 
-			f.write(str(i) + comment + '\n')
+			f.write(f'{i} {comment}\n')
 
 		f.close()
 
